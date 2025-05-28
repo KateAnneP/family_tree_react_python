@@ -17,20 +17,21 @@ class User(BaseModel):
     login: str
     password: str
     role: str
+    created_at: str
 
 db = []
 
 @app.get("/")
-async def root():
+def root():
     return {"message": "main page"}
 
 
 @app.get("/users")
-async def get_users():
+def get_users():
     return db
 
 @app.post("/users")
-async def create_user(user: User):
+def create_user(user: User):
     db.append(user)
     return user
 
@@ -47,3 +48,22 @@ def delete_user(id: int):
     global db
     db = [u for u in db if u.id != id]
     return {"ok": True}
+
+class Person(BaseModel):
+    id: int
+    imie: str
+    nazwisko: str
+    nazwisko_panienskie: str
+    data_urodzenia: str
+    miejsce_urodzenia: str
+    data_smierci: str
+
+@app.get("/people")
+def get_people():
+    return db
+
+@app.post("/people")
+def create_person(person: Person):
+    db.append(person)
+    return db
+
